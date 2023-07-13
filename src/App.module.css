@@ -1,0 +1,32 @@
+.container{
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+}
+input{
+    width: 280px;
+    height: 50px;
+    font-size: 16px;
+}
+
+button{
+    height: 50px;
+    width: 100px;
+    margin-left: 20px;
+}
+.inp{
+    margin: 10px;
+}
+li{
+    font-size: 20px;
+
+    margin-bottom: 8px;
+    list-style: none;
+}
+
+
+.list{
+    display: flex;
+    justify-content: center;
+    margin: 20px;
+}
