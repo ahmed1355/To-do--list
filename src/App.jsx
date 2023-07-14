@@ -8,7 +8,10 @@ function App() {
   const inputask = useRef(null); //1 step
 
   const addTask = () => {
-    setTodoList([...todolist, currenttask]);
+    // setTodoList([...todolist, currenttask]); have a property in each task which will be completed
+    //or not which will be a boolean
+    setTodoList([...todolist, { task: currenttask, completed: false }]);
+
     inputask.current.value = ""; //3rd step
     setCurrentTask("");
     // console.log(todolist);
@@ -16,7 +19,19 @@ function App() {
   const deletetask = (deletetask) => {
     setTodoList(
       todolist.filter((task) => {
-        return task !== deletetask;
+        return task.task !== deletetask;
+      })
+    );
+  };
+
+  const completetask = (completedtask) => {
+    setTodoList(
+      todolist.map((task) => {
+        return task.task === completedtask
+          ? { task: completedtask, completed: true }
+          : // : { task: task.task, completed: false };
+            //if it was previously true,continue as true else false
+            { task: task.task, completed: task.completed ? true : false };
       })
     );
   };
@@ -28,6 +43,11 @@ function App() {
           <input
             ref={inputask} //2nd step
             type="text"
+            onKeyDown={(e) => {
+              if (e.keyCode === 13) {
+                addTask();
+              }
+            }}
             placeholder="enter your task..."
             onChange={(e) => {
               setCurrentTask(e.target.value);
@@ -43,11 +63,20 @@ function App() {
         {todolist.map((val, key) => {
           return (
             <>
-            <div className={styles.list}>
-              <li key={key}><p>{val}</p></li>
-              <button onClick={() => deletetask(val)}>X</button>
-
-            </div>
+              <div className={styles.list}>
+                <li key={key}>
+                  <p>{val.task}</p>
+                </li>
+                <button onClick={() => completetask(val.task)}>
+                  completed
+                </button>
+                <button onClick={() => deletetask(val.task)}>X</button>
+                {val.completed ? (
+                  <h1>task completed</h1>
+                ) : (
+                  <h1>task not completed</h1>
+                )}
+              </div>
             </>
           );
         })}
